@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         SP - version 2
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  try to take over the world!
 // @author       You
-// @match        https://live.shopee.vn*
+// @match        https://live.shopee.vn/*
 // @require      https://code.jquery.com/jquery-2.2.4.min.js
 // @require      https://raw.githubusercontent.com/doiboroi/t2/main/t.js
 // @grant        none
