@@ -1,4 +1,4 @@
-var iVersion = "1.9.3";
+var iVersion = "1.9.4";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -45,6 +45,7 @@ function truyenfull(){
 	jQuery(".nh-read__alert").remove()
 	jQuery(".ads-holder").remove()
 	jQuery("#read-comments").remove()
+	jQuery(".header-ads-full").remove();
 
 	// remove iframe wrapper
 	jQuery("#ads-chapter-bottom-truyentranh").remove();
@@ -403,6 +404,24 @@ function truyenfull(){
 	    window.location.href = sNewHref
 
 	})
+
+
+		// click next chap
+	jQuery("body").on("click", "#next_chap", function(e){
+		e.preventDefault();
+		console.log("open next chap");
+		jQuery.get(jQuery(this).attr("href"), function(result){
+			var result = $($.parseHTML("<div>"+result+"</div>"));
+			
+			var chapterC = result.find("#chapter-c").parent().html();
+			jQuery("#chapter-c").parent().html( chapterC );
+			jQuery(window).resize();
+		});
+	});
+
+	// hide gototop
+	jQuery(".toggle-nav-open").hide();
+
 }
 
 
