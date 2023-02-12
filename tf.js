@@ -1,4 +1,4 @@
-var iVersion = "1.9.5";
+var iVersion = "1.9.6";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -32,6 +32,11 @@ function truyenfull(){
 		\
 		#wrap,.chapter .chapter-c, body, #footer {background:black !important;color:#7c7c7c}\
 		#js-read__content{font-size:22px !important}\
+		\
+		\
+		\
+		.navbar-breadcrumb{ background:#746767}\
+		.navbar-breadcrumb a{color:#e6e6e6}\
 		\
 		\
 		\
@@ -419,7 +424,7 @@ function truyenfull(){
 
 			jQuery(".chapter-nav>.group_story.text-center, .chapter-nav>.col-xs-12").remove();
 
-			$('html,body').animate({scrollTop:100}, 150);
+			$('html,body').animate({scrollTop:360}, 150);
 			jQuery(".toggle-nav-open").hide();
 
 			if( jQuery("body").find(".page-link").length == 0 ){
@@ -430,6 +435,8 @@ function truyenfull(){
 				jQuery(".my-setting").removeClass("active")
 				jQuery(".my-setting, .btn-chapter-nav").css("opacity","0.1");
 			},1000)
+
+			
 		});
 	});
 
