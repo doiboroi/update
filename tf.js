@@ -1,4 +1,4 @@
-var iVersion = "1.9.4";
+var iVersion = "1.9.5";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -415,7 +415,21 @@ function truyenfull(){
 			
 			var chapterC = result.find("#chapter-c").parent().html();
 			jQuery("#chapter-c").parent().html( chapterC );
-			jQuery(window).resize();
+			reset_bottom_btn_top()
+
+			jQuery(".chapter-nav>.group_story.text-center, .chapter-nav>.col-xs-12").remove();
+
+			$('html,body').animate({scrollTop:100}, 150);
+			jQuery(".toggle-nav-open").hide();
+
+			if( jQuery("body").find(".page-link").length == 0 ){
+				jQuery("body").prepend('<a style="display:block" class="page-link" href="'+this.url+'">'+this.url+'</a>');
+			}
+
+			setTimeout(function(){
+				jQuery(".my-setting").removeClass("active")
+				jQuery(".my-setting, .btn-chapter-nav").css("opacity","0.1");
+			},1000)
 		});
 	});
 
