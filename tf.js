@@ -1,4 +1,4 @@
-var iVersion = "1.9.7";
+var iVersion = "1.9.8";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -439,16 +439,20 @@ function truyenfull(){
 				// $('html,body').animate({scrollTop:360}, 150);
 				jQuery(".toggle-nav-open").hide();
 
+				if( jQuery(".page-link").length ){
+					
+					history.pushState(null, '', jQuery(".page-link").attr("href"));
+				}
+
 				jQuery(".page-link").remove();
 				jQuery("body").prepend('<a style="display:block;margin-bottom:10px;" class="page-link" href="'+this.url+'">'+this.url+'</a>');
 
 				setTimeout(function(){
 					jQuery(".my-setting").removeClass("active")
 					jQuery(".my-setting, .btn-chapter-nav").css("opacity","0.1");
-				},1000)
+				},1000);
 
-
-				history.pushState(null, '', this.url);
+				
 			}
 		});
 
