@@ -1,4 +1,4 @@
-var iVersion = "1.9.8";
+var iVersion = "1.9.9";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -436,7 +436,7 @@ function truyenfull(){
 
 				jQuery(".chapter-nav>.group_story.text-center, .chapter-nav>.col-xs-12").remove();
 
-				// $('html,body').animate({scrollTop:360}, 150);
+				$('html,body').animate({scrollTop:360}, 150);
 				jQuery(".toggle-nav-open").hide();
 
 				if( jQuery(".page-link").length ){
