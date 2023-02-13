@@ -1,4 +1,4 @@
-var iVersion = "1.9.6";
+var iVersion = "1.9.7";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -8,13 +8,18 @@ if( sURL.indexOf('truyenfull') != -1 ){
 
 function truyenfull(){
 
+	if( sURL.split("/").length < 6 ) return;
+	if( sURL.indexOf('danh-sach') != -1 ) return;
+	if( sURL.indexOf('tim-kiem') != -1 ) return;
+	console.log("RUN");
+
 	jQuery("head").append('<style>\
 		.my-setting, #next_chap,#nextChapter{ opacity:0.5; position: fixed; right: 0; z-index: 99999; }\
 		.my-setting{line-height:200%;opacity:0.5;width:110px;height:47px;position:fixed;left:50%;background-color: #5cb85c;}\
 		.my-setting{cursor:pointer;opacity:0.3;right: auto;left:0;width:110px;transform:none;text-align:center;font-size:25px;}\
 		.my-setting.active{opacity:0.7}\
 		.close-btn{z-index:999999}\
-		.cover-scroll{border-right:2px solid green;position: fixed;z-index:10;left: 0;right: 0; top: 0;bottom: 0;display:none;}\
+		.cover-scroll{border-right:2px solid green;position: fixed;z-index:10;left: 0;right: 0; top: 76px;bottom: 0;display:none;}\
 		.cover-scroll.active{display:block}\
 		/*.my-setting,#next_chap{top: 100%;transform: translateY(-100%);}*/\
 		.pdown{}\
@@ -364,27 +369,29 @@ function truyenfull(){
 	        nextelem = br[i].nextSibling;
 	        
 	        // Getting element name
-	        elemname = nextelem.nodeName.toLowerCase();
-	        
-	        // If element name is `br`, set the flag as true.
-	        if (elemname == 'br') {
-	            include = true;
-	        }
-	        
-	        // If element name is `#text`, we face text node
-	        else if (elemname == '#text') {
-	            // If text node is only white space, we must pass it.
-	            // This is because of something like this: `<br />   <br />`
-	            if (! nextelem.data.replace(/\s+/g, '').length) {
-	                nextelem = br[i+1];
-	                include = true;
-	            }
-	        }
-	        
-	        // If the element is flagged as true, hide it
-	        if (include) {
-	            nextelem.style.display = 'none';
-	        }
+	        if( nextelem != null ){
+		        elemname = nextelem.nodeName.toLowerCase();
+		        
+		        // If element name is `br`, set the flag as true.
+		        if (elemname == 'br') {
+		            include = true;
+		        }
+		        
+		        // If element name is `#text`, we face text node
+		        else if (elemname == '#text') {
+		            // If text node is only white space, we must pass it.
+		            // This is because of something like this: `<br />   <br />`
+		            if (! nextelem.data.replace(/\s+/g, '').length) {
+		                nextelem = br[i+1];
+		                include = true;
+		            }
+		        }
+		    }    
+		        // If the element is flagged as true, hide it
+		        if (include) {
+		            nextelem.style.display = 'none';
+		        }
+
 	    }
 
 
@@ -415,29 +422,59 @@ function truyenfull(){
 	jQuery("body").on("click", "#next_chap", function(e){
 		e.preventDefault();
 		console.log("open next chap");
-		jQuery.get(jQuery(this).attr("href"), function(result){
-			var result = $($.parseHTML("<div>"+result+"</div>"));
+		jQuery.ajax({
+			type: "GET",
+			url:jQuery(this).attr("href"),
+			beforeSend: function(){
+			},
+			success : function(result){
+				var result = $($.parseHTML("<div>"+result+"</div>"));
 			
-			var chapterC = result.find("#chapter-c").parent().html();
-			jQuery("#chapter-c").parent().html( chapterC );
-			reset_bottom_btn_top()
+				var chapterC = result.find("#chapter-c").parent().html();
+				jQuery("#chapter-c").parent().html( chapterC );
+				reset_bottom_btn_top()
 
-			jQuery(".chapter-nav>.group_story.text-center, .chapter-nav>.col-xs-12").remove();
+				jQuery(".chapter-nav>.group_story.text-center, .chapter-nav>.col-xs-12").remove();
 
-			$('html,body').animate({scrollTop:360}, 150);
-			jQuery(".toggle-nav-open").hide();
+				// $('html,body').animate({scrollTop:360}, 150);
+				jQuery(".toggle-nav-open").hide();
 
-			if( jQuery("body").find(".page-link").length == 0 ){
-				jQuery("body").prepend('<a style="display:block" class="page-link" href="'+this.url+'">'+this.url+'</a>');
+				jQuery(".page-link").remove();
+				jQuery("body").prepend('<a style="display:block;margin-bottom:10px;" class="page-link" href="'+this.url+'">'+this.url+'</a>');
+
+				setTimeout(function(){
+					jQuery(".my-setting").removeClass("active")
+					jQuery(".my-setting, .btn-chapter-nav").css("opacity","0.1");
+				},1000)
+
+
+				history.pushState(null, '', this.url);
 			}
+		});
 
-			setTimeout(function(){
-				jQuery(".my-setting").removeClass("active")
-				jQuery(".my-setting, .btn-chapter-nav").css("opacity","0.1");
-			},1000)
+		// jQuery.get(jQuery(this).attr("href"), function(result){
+		// 	var result = $($.parseHTML("<div>"+result+"</div>"));
+			
+		// 	var chapterC = result.find("#chapter-c").parent().html();
+		// 	jQuery("#chapter-c").parent().html( chapterC );
+		// 	reset_bottom_btn_top()
+
+		// 	jQuery(".chapter-nav>.group_story.text-center, .chapter-nav>.col-xs-12").remove();
+
+		// 	$('html,body').animate({scrollTop:360}, 150);
+		// 	jQuery(".toggle-nav-open").hide();
+
+		// 	if( jQuery("body").find(".page-link").length == 0 ){
+		// 		jQuery("body").prepend('<a style="display:block" class="page-link" href="'+this.url+'">'+this.url+'</a>');
+		// 	}
+
+		// 	setTimeout(function(){
+		// 		jQuery(".my-setting").removeClass("active")
+		// 		jQuery(".my-setting, .btn-chapter-nav").css("opacity","0.1");
+		// 	},1000)
 
 			
-		});
+		// });
 	});
 
 	// hide gototop
