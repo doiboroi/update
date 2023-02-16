@@ -1,4 +1,4 @@
-var iVersion = "1.9.9";
+var iVersion = "1.9.10";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -400,6 +400,7 @@ function truyenfull(){
 
 	jQuery("#chapter-c >*").each(function(){
 	    jQuery(this).html( jQuery(this).html().replaceAll( 'tang thi', 'zombie' ) )
+	    jQuery(this).html( jQuery(this).html().replaceAll( 'Kinh Cức', 'Kim Cút' ) )
 
 	})
 
