@@ -1,4 +1,4 @@
-var iVersion = "1.9.11";
+var iVersion = "1.9.12";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -452,6 +452,13 @@ function truyenfull(){
 					jQuery(".my-setting").removeClass("active")
 					jQuery(".my-setting, .btn-chapter-nav").css("opacity","0.1");
 				},1000);
+
+
+				jQuery("#chapter-c,#chapter-c >*").each(function(){
+				    jQuery(this).html( jQuery(this).html().replaceAll( 'tang thi', 'zombie' ) );
+				    jQuery(this).html( jQuery(this).html().replaceAll( 'Kinh Cức', 'Kim Cút' ) );
+
+				})
 
 				
 			}
