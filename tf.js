@@ -1,4 +1,4 @@
-var iVersion = "1.9.12";
+var iVersion = "1.9.13";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -13,6 +13,11 @@ function truyenfull(){
 	if( sURL.indexOf('tim-kiem') != -1 ) return;
 	console.log("RUN");
 
+	var customCOLOR = "7c7c7c";
+	if( is_lc_exists('custom-color') )
+		customCOLOR = localStorage.getItem('custom-color')
+		
+
 	jQuery("head").append('<style>\
 		.my-setting, #next_chap,#nextChapter{ opacity:0.5; position: fixed; right: 0; z-index: 99999; }\
 		.my-setting{line-height:200%;opacity:0.5;width:110px;height:47px;position:fixed;left:50%;background-color: #5cb85c;}\
@@ -26,6 +31,15 @@ function truyenfull(){
 		\
 		\
 		\
+		.slidecontainer{\
+ 			width: 170px;opacity: 0.1;position: fixed;left: 137px;bottom:0;z-index: 999999;height: 47px;margin-top:20px; max-width: 40%;\
+		}\
+		.slidecontainer input{\
+			margin-top:17px;\
+		}\
+		\
+		\
+		\
 		.pdown{display:none}\
 		.pdown{opacity:0.5;width:110px;height:47px;position:fixed;left:50%;background-color: #5cb85c;top: 100%;transform:translate(-50%);}\
 		\
@@ -35,7 +49,7 @@ function truyenfull(){
 		\
 		\
 		\
-		#wrap,.chapter .chapter-c, body, #footer {background:black !important;color:#7c7c7c}\
+		#wrap,.chapter .chapter-c, body, #footer {background:black !important;color:#'+customCOLOR+'}\
 		#js-read__content{font-size:22px !important}\
 		\
 		\
@@ -204,8 +218,14 @@ function truyenfull(){
 		document.exitFullscreen()
 	})
 
+	var sliderVal
+
+	//customCOLOR = localStorage.getItem('custom-color')
+	sliderVal = customCOLOR[0];
+	sliderVal = parseInt( sliderVal, 16 );
+
 	//setting
-	jQuery("body").append( '<div class="my-setting"><span class="glyphicon glyphicon-cog"></span></div>' )
+	jQuery("body").append( '<div class="my-setting"><span class="glyphicon glyphicon-cog"></span></div><div class="slidecontainer"><input type="range" min="1" max="15" value="'+sliderVal+'" class="slider" id="myRange"></div>' )
 	jQuery(".my-setting").css("width", iNextW + "px")
 	jQuery("body").on("click",'.my-setting', function(){
 		jQuery(this).toggleClass("active")
@@ -218,6 +238,25 @@ function truyenfull(){
 			localStorage.setItem('bOpenCover', "") 
 		}
 	})
+
+	
+	jQuery(".slidecontainer").on("input",function(){
+		sliderVal = jQuery(".slidecontainer input").val();
+		sliderVal = parseInt( sliderVal );
+		sliderVal = sliderVal.toString(16);
+		sliderVal = sliderVal + "c" + sliderVal + "c" + sliderVal + 'c';
+		console.log( sliderVal );
+
+		jQuery(".custom-color").remove();
+		jQuery("head").append(
+			'<style class="custom-color">#wrap, .chapter .chapter-c, body, #footer{color:#'+sliderVal+'!important;}</style>'
+		);
+	});
+
+	jQuery(".slidecontainer").on("change", function(){
+		console.log( sliderVal );
+		localStorage.setItem('custom-color', sliderVal );
+	});
 
 	var bOpenCover = false
 	if( undefined == localStorage.getItem('bOpenCover') || localStorage.getItem('bOpenCover') == ""|| localStorage.getItem('bOpenCover') == "false" ){
@@ -493,7 +532,11 @@ function truyenfull(){
 	jQuery(".toggle-nav-open").hide();
 
 }
-
+function is_lc_exists( lcName ){
+        if( !localStorage.hasOwnProperty( lcName ) || undefined === localStorage.getItem(lcName) || "" === localStorage.getItem(lcName) || "false"=== localStorage.getItem(lcName) )
+            return false;
+        return true;
+    }
 
 function metruyenchu(){
 	var iframeMCC, iIframeTimer = 20//(check iframe within 20 seconds)
