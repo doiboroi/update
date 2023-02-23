@@ -1,4 +1,4 @@
-var iVersion = "1.9.13";
+var iVersion = "1.9.14";
 let sURL = window.location.href;
 if( sURL.indexOf('truyenfull') != -1 ){
 	truyenfull()
@@ -32,7 +32,7 @@ function truyenfull(){
 		\
 		\
 		.slidecontainer{\
- 			width: 170px;opacity: 0.1;position: fixed;left: 137px;bottom:0;z-index: 999999;height: 47px;margin-top:20px; max-width: 40%;\
+ 			width: 170px;opacity: 0.5;position: fixed;left: 137px;bottom:0;z-index: 999999;height: 47px;margin-top:20px; max-width: 40%;\
 		}\
 		.slidecontainer input{\
 			margin-top:17px;\
