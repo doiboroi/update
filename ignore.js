@@ -4,4 +4,4 @@ var aIgnorePermanent = ["shop_duadon","tothithuthuy2019","qcataa7040","2092rxsdd
 
 
 var sopi = "sopi";
-var aPriorityUS = ["kimdungjn", "nerman.vn"];
+var aPriorityUS = ["kimdungjn"];
